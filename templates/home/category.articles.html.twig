@@ -5,7 +5,7 @@
 
 {% block body %}
   <h1>
-    Bienvenue dans la page d'accueil
+    Articles de la catégorie "{{ category.title }}"
   </h1>
   <div class="row">
     <div class="col-md-8">
@@ -60,7 +60,7 @@
               {{ category.title }}
             </a>
             <span class="badge badge-primary badge-pill">
-              {{ category.articles.count }}
+              {{ category.articles.count ~ 'article(s)' }}
             </span>
           </li>
         {% endfor %}

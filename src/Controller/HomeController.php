@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Category;
 use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     private $repoArticle;
+    private $repoCategory;
 
     /**
      * __construct
@@ -18,9 +21,12 @@ class HomeController extends AbstractController
      * @param  mixed $repoArticle
      * @return void
      */
-    public function __construct(ArticleRepository $repoArticle)
-    {
+    public function __construct(
+        ArticleRepository $repoArticle,
+        CategoryRepository $repoCategory
+    ) {
         $this->repoArticle = $repoArticle;
+        $this->repoCategory = $repoCategory;
     }
 
     /**
@@ -29,9 +35,12 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $articles = $this->repoArticle->findAll();
+        $categories = $this->repoCategory->findAll();
+        // dd($categories[0]->getArticles()->count([]));
 
         return $this->render('home/index.html.twig', [
             'articles' => $articles,
+            'categories' => $categories,
         ]);
     }
 
@@ -46,6 +55,25 @@ class HomeController extends AbstractController
 
         return $this->render('show/index.html.twig', [
             'article' => $article,
+        ]);
+    }
+
+    /**
+     * @Route("/category/{id}/articles", name="category.articles")
+     */
+    public function categoryArticles(Category $category): Response
+    {
+        if (!$category) {
+            return $this->redirectToRoute('home');
+        }
+
+        $articles = $category->getArticles()->getValues();
+        $categories = $this->repoCategory->findAll();
+
+        return $this->render('home/category.articles.html.twig', [
+            'category' => $category,
+            'articles' => $articles,
+            'categories' => $categories,
         ]);
     }
 }
