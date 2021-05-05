@@ -36,7 +36,6 @@ class HomeController extends AbstractController
     {
         $articles = $this->repoArticle->findAll();
         $categories = $this->repoCategory->findAll();
-        // dd($categories[0]->getArticles()->count([]));
 
         return $this->render('home/index.html.twig', [
             'articles' => $articles,
@@ -47,7 +46,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/show/{id}", name="show")
      */
-    public function show(Article $article): Response
+    public function show(?Article $article): Response
     {
         if (!$article) {
             return $this->redirectToRoute('home');
@@ -61,7 +60,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/category/{id}/articles", name="category.articles")
      */
-    public function categoryArticles(Category $category): Response
+    public function categoryArticles(?Category $category): Response
     {
         if (!$category) {
             return $this->redirectToRoute('home');

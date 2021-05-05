@@ -60,7 +60,7 @@
               {{ category.title }}
             </a>
             <span class="badge badge-primary badge-pill">
-              {{ category.articles.count }}
+              {{ category.articles|length }} article(s)
             </span>
           </li>
         {% endfor %}
