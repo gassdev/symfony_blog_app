@@ -18,7 +18,6 @@ class RegisterType extends AbstractType
             ->add('lastname')
             ->add('email')
             ->add('password', PasswordType::class)
-            ->add('createdAt')
             ->add('passwordConfirm', PasswordType::class);
     }
 
